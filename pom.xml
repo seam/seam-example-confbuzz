@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>org.jboss.seam.examples</groupId>
+    <artifactId>confbuzz</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+    <packaging>war</packaging>
+    <name>Seam 3 Confbuzz Example</name>
+    <description>
+        A sample application using various Seam 3 modules, based on lanyard.com.
+    </description>
+
+    <!--
+        Versions which we will be overriding with versions since 3.0.0.Final release, arquillian,
+        provided artifacts and others
+    -->
+    <properties>
+        <seam.bom.version>3.0.0.Final</seam.bom.version>
+        <seam.faces.version>3.0.1.Final</seam.faces.version>
+        <jboss.javaee6.version>2.0.0.Beta1</jboss.javaee6.version>
+        <seam.validation.version>3.0.0.Final</seam.validation.version>
+        <seam.reports.version>3.0.0.Alpha1</seam.reports.version>
+        <jodatime.version>1.6.2</jodatime.version>
+        <arquillian.version>1.0.0.Alpha5</arquillian.version>
+        <richfaces.version>4.0.0.Final</richfaces.version>
+    </properties>
+
+    <!-- Use the Seam 3 BOM to get the correct versions for most modules -->
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.jboss.seam</groupId>
+                <artifactId>seam-bom</artifactId>
+                <version>${seam.bom.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.richfaces</groupId>
+                <artifactId>richfaces-bom</artifactId>
+                <version>${richfaces.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.jboss.spec</groupId>
+            <artifactId>jboss-javaee-6.0</artifactId>
+            <version>${jboss.javaee6.version}</version>
+            <type>pom</type>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.seam.faces</groupId>
+            <artifactId>seam-faces</artifactId>
+            <version>${seam.faces.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.seam.catch</groupId>
+            <artifactId>seam-catch</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.seam.persistence</groupId>
+            <artifactId>seam-persistence</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.seam.validation</groupId>
+            <artifactId>seam-validation</artifactId>
+            <version>${seam.validation.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.seam.reports</groupId>
+            <artifactId>seam-reports-jasper</artifactId>
+            <version>${seam.reports.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>joda-time</groupId>
+            <artifactId>joda-time</artifactId>
+            <version>${jodatime.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.richfaces.ui</groupId>
+            <artifactId>richfaces-components-ui</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.richfaces.core</groupId>
+            <artifactId>richfaces-core-impl</artifactId>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <configuration>
+                        <source>1.6</source>
+                        <target>1.6</target>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
+</project>
