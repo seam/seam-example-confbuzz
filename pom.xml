@@ -26,6 +26,7 @@
         <jodatime.version>1.6.2</jodatime.version>
         <arquillian.version>1.0.0.Alpha5</arquillian.version>
         <richfaces.version>4.0.0.Final</richfaces.version>
+        <hibernate.validator.version>4.2.0.CR1</hibernate.validator.version>
     </properties>
 
     <!-- Use the Seam 3 BOM to get the correct versions for most modules -->
@@ -91,6 +92,11 @@
         <dependency>
             <groupId>org.richfaces.core</groupId>
             <artifactId>richfaces-core-impl</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-validator</artifactId>
+            <version>${hibernate.validator.version}</version>
         </dependency>
     </dependencies>
 
