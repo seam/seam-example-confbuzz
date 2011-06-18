@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package seam.example.confbuzz.entity;
+package seam.example.confbuzz.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -25,11 +25,13 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.Email;
+import org.jboss.seam.solder.core.Veto;
 
 /**
  * @author <a href="http://community.jboss.org/people/LightGuard">Jason Porter</a>
  */
 @Entity
+@Veto
 public class User {
     private Long id;
     private Long version;

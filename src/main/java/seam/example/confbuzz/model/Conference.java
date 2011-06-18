@@ -14,8 +14,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package seam.example.confbuzz.entity;
+package seam.example.confbuzz.model;
 
+import java.util.Date;
 import java.util.Set;
 
 import javax.persistence.ElementCollection;
@@ -25,19 +26,20 @@ import javax.persistence.Id;
 import javax.persistence.Version;
 import javax.validation.constraints.NotNull;
 
-import org.joda.time.LocalDate;
+import org.jboss.seam.solder.core.Veto;
 
 /**
  * @author <a href="http://community.jboss.org/people/LightGuard">Jason Porter</a>
  */
 @Entity
+@Veto
 public class Conference {
 
     private Long id;
     private Long version;
     private String name;
-    private LocalDate startDate;
-    private LocalDate endDate;
+    private Date startDate;
+    private Date endDate;
     private String location;
     private Set<String> tags;
 
@@ -70,20 +72,20 @@ public class Conference {
     }
 
     @NotNull
-    public LocalDate getStartDate() {
+    public Date getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(LocalDate startDate) {
+    public void setStartDate(Date startDate) {
         this.startDate = startDate;
     }
 
     @NotNull
-    public LocalDate getEndDate() {
+    public Date getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(LocalDate endDate) {
+    public void setEndDate(Date endDate) {
         this.endDate = endDate;
     }
 
