@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  JBoss, Home of Professional Open Source
+  Copyright 2011, Red Hat, Inc., and individual contributors
+  by the @authors tag. See the copyright.txt in the distribution for a
+  full listing of individual contributors.
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+  http://www.apache.org/licenses/LICENSE-2.0
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+  -->
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:a4j="http://richfaces.org/a4j"
+                xmlns:rich="http://richfaces.org/rich"
+                xmlns="http://www.w3.org/1999/xhtml"
+                template="layout/mainLayout.xhtml">
+    <ui:define name="content">
+        <div class="block">
+            <div class="column span-17">
+                <h:form id="tabPnlForm">
+                    <rich:tabPanel id="conferencePnl" switchType="ajax">
+                        <rich:tab id="todayTab" header="Today's Conferences">
+                            <a4j:repeat id="todayConferenceList" value="#{todaysConferences}" var="_conference">
+                                <div>
+                                    <h:link id="conferenceLink" value="#{_conference.name}" outcome="/conference.xhtml">
+                                        <f:param name="id" value="#{_conference.id}"/>
+                                    </h:link>
+                                    <br/>
+                                    #{_conference.location}<br/>
+                                    #{_conference.startDate} - #{_conference.endDate}
+                                </div>
+                            </a4j:repeat>
+                        </rich:tab>
+                        <rich:tab id="allConferencesTab" header="All Conferences">
+                            <!-- TOOD: may actually need to make a component to lay this out the way that's listed
+                                       in the spec
+                            -->
+                            <a4j:repeat id="allConferenceList" value="#{allConferences}" var="_conference">
+                                <div>
+                                    <h:link id="conferenceLink" value="#{_conference.name}" outcome="/conference.xhtml">
+                                        <f:param name="id" value="#{_conference.id}"/>
+                                    </h:link>
+                                    <br/>
+                                    #{_conference.location}<br/>
+                                    #{_conference.startDate} - #{_conference.endDate}<br/>
+                                    #{_conference.tags}
+                                </div>
+                            </a4j:repeat>
+                        </rich:tab>
+                    </rich:tabPanel>
+                </h:form>
+            </div>
+        </div>
+    </ui:define>
+</ui:composition>

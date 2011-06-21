@@ -29,13 +29,13 @@ import org.jboss.seam.faces.view.config.ViewPattern;
 public interface ViewMetaData {
     static enum Pages {
         @UrlMapping(pattern = "/home")
-        @ViewPattern("/home.xhtml")
+        @ViewPattern("/conferences.xhtml")
         HOME,
 
         @FacesRedirect
         @ViewPattern("/*")
-        @AccessDeniedView("/home.xhtml")
-        @LoginView("/home.xhtml")
+        @AccessDeniedView("/conferences.xhtml")
+        @LoginView("/conferences.xhtml")
         ALL
     }
 }

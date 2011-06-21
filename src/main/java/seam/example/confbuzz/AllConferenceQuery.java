@@ -38,6 +38,6 @@ public class AllConferenceQuery {
     @SuppressWarnings({"unchecked"})
     @Inject
     public void init(EntityManager em) {
-        this.allConferences = em.createQuery("select c from Conference c").getResultList();
+        this.allConferences = em.createQuery("select c from Conference c order by c.startDate").getResultList();
     }
 }
