@@ -35,9 +35,9 @@
                     <h:form id="loginForm">
                         <ui:fragment id="loginFormControls" rendered="#{!identity.loggedIn}">
                             <h:outputLabel id="usernameLbl" for="usernameInput" value="Username" />
-                            <h:inputText id="usernameInput" />
+                            <h:inputText id="usernameInput" value="#{credentials.username}"/>
                             <h:outputLabel id="passwordLbl" for="passwordInput" value="Password" />
-                            <h:inputText id="passwordInput" />
+                            <h:inputSecret id="passwordInput" value="#{credentials.password}"/>
                             <h:commandButton id="loginBtn" action="#{identity.login()}" value="Login" />
                         </ui:fragment>
                         <div>

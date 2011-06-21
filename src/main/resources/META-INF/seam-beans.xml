@@ -31,10 +31,10 @@
     <plidm:JpaIdentityStoreConfiguration>
         <s:replaces/>
         <plidm:identityClass>seam.example.confbuzz.model.Identity</plidm:identityClass>
-        <plidm:credentialClass>seam.example.confbuzz.model.Identity</plidm:credentialClass>
+        <plidm:credentialClass>seam.example.confbuzz.model.IdentityCredential</plidm:credentialClass>
         <plidm:relationshipClass>seam.example.confbuzz.model.IdentityRelationship</plidm:relationshipClass>
         <plidm:roleTypeClass>seam.example.confbuzz.model.IdentityRole</plidm:roleTypeClass>
-        <!-- <plidm:attributeClass>seam.example.confbuzz.model.IdentityObjectAttribute</plidm:attributeClass> -->
+        <plidm:attributeClass>seam.example.confbuzz.model.IdentityAttribute</plidm:attributeClass>
     </plidm:JpaIdentityStoreConfiguration>
 
 </beans>
