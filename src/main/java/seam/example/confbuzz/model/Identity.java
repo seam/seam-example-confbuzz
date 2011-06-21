@@ -16,15 +16,21 @@
  */
 package seam.example.confbuzz.model;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Version;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.Email;
+import org.jboss.seam.security.annotations.management.IdentityProperty;
+import org.jboss.seam.security.annotations.management.PropertyType;
 import org.jboss.seam.solder.core.Veto;
 
 /**
@@ -32,14 +38,18 @@ import org.jboss.seam.solder.core.Veto;
  */
 @Entity
 @Veto
-public class User {
+public class Identity implements Serializable {
+    private static final long serialVersionUID = -8136797293873610623L;
+
     private Long id;
     private Long version;
-    private String username;
-    private String firstName;
-    private String lastName;
-    private String password;
+    private String name;
+    private String givenFirst;
+    private String giveLast;
+    private String credential;
     private String email;
+    private String credentialType;
+    private IdentityType type;
 
     @Id
     @GeneratedValue
@@ -63,36 +73,47 @@ public class User {
     @NotNull
     @Size(min = 1, max = 32)
     @Column(unique = true, nullable = false)
-    public String getUsername() {
-        return username;
+    @IdentityProperty(PropertyType.NAME)
+    public String getName() {
+        return name;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getFirstName() {
-        return firstName;
+    public String getGivenFirst() {
+        return givenFirst;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
+    public void setGivenFirst(String givenFirst) {
+        this.givenFirst = givenFirst;
     }
 
-    public String getLastName() {
-        return lastName;
+    public String getGiveLast() {
+        return giveLast;
     }
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
+    public void setGiveLast(String giveLast) {
+        this.giveLast = giveLast;
     }
 
-    public String getPassword() {
-        return password;
+    @IdentityProperty(PropertyType.CREDENTIAL)
+    public String getCredential() {
+        return credential;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setCredential(String credential) {
+        this.credential = credential;
+    }
+
+    @IdentityProperty(PropertyType.CREDENTIAL_TYPE)
+    public String getCredentialType() {
+        return credentialType;
+    }
+
+    public void setCredentialType(String credentialType) {
+        this.credentialType = credentialType;
     }
 
     @Email
@@ -106,23 +127,14 @@ public class User {
         this.email = email;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        User user = (User) o;
-
-        if (id != null ? !id.equals(user.id) : user.id != null) return false;
-        if (version != null ? !version.equals(user.version) : user.version != null) return false;
-
-        return true;
+    @ManyToOne
+    @IdentityProperty(PropertyType.TYPE)
+    @JoinColumn(name = "IDENTITY_OBJECT_TYPE_ID")
+    public IdentityType getType() {
+        return type;
     }
 
-    @Override
-    public int hashCode() {
-        int result = id != null ? id.hashCode() : 0;
-        result = 31 * result + (version != null ? version.hashCode() : 0);
-        return result;
+    public void setType(IdentityType type) {
+        this.type = type;
     }
 }

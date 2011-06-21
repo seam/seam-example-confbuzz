@@ -69,6 +69,10 @@
             <artifactId>seam-catch</artifactId>
         </dependency>
         <dependency>
+            <groupId>org.jboss.seam.security</groupId>
+            <artifactId>seam-security</artifactId>
+        </dependency>
+        <dependency>
             <groupId>org.jboss.seam.persistence</groupId>
             <artifactId>seam-persistence</artifactId>
             <version>${seam.persistence.version}</version>
