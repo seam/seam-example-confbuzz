@@ -20,6 +20,8 @@
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:rich="http://richfaces.org/rich"
+      xmlns:a4j="http://richfaces.org/a4j"
       lang="en" xml:lang="en">
 <f:view>
     <h:head>
@@ -30,16 +32,21 @@
         <div class="container">
             <div class="block">
                 <div class="column span-24">
-                    <!--
                     <h:form id="loginForm">
+                        <ui:fragment id="loginFormControls" rendered="#{!identity.loggedIn}">
+                            <h:outputLabel id="usernameLbl" for="usernameInput" value="Username" />
+                            <h:inputText id="usernameInput" value="#{credentials.username}"/>
+                            <h:outputLabel id="passwordLbl" for="passwordInput" value="Password" />
+                            <h:inputSecret id="passwordInput" value="#{credentials.password}"/>
+                            <h:commandButton id="loginBtn" action="#{identity.login()}" value="Login" />
+                        </ui:fragment>
                         <div>
-                            <h:commandLink id="homeLink" value="Home" action="/index"/>
+                            <h:commandLink id="homeLink" value="Home" action="/home"/>
                             <h:outputText value=" | " rendered="#{identity.loggedIn}"/>
-                            <h:commandLink id="logoutBtn" value="Logout" action="#{identity.logout}"
+                            <h:commandLink id="logoutBtn" value="Logout" action="#{identity.logout()}"
                                            rendered="#{identity.loggedIn}"/>
                         </div>
                     </h:form>
-                    -->
                 </div>
             </div>
             <ui:insert name="content"/>

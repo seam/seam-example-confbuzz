@@ -9,8 +9,6 @@
         -->
         <provider>org.hibernate.ejb.HibernatePersistence</provider>
         <jta-data-source>java:/H2DS</jta-data-source>
-        <class>seam.example.confbuzz.model.User</class>
-        <class>seam.example.confbuzz.model.Conference</class>
         <properties>
             <!-- Properties for Hibernate (default provider for JBoss AS) -->
             <property name="hibernate.hbm2ddl.auto" value="create-drop"/>
