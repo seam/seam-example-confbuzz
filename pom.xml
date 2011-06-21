@@ -20,6 +20,7 @@
     <properties>
         <seam.bom.version>3.0.0.Final</seam.bom.version>
         <seam.faces.version>3.0.1.Final</seam.faces.version>
+        <seam.persistence.version>3.0.1-SNAPSHOT</seam.persistence.version>
         <jboss.javaee6.version>2.0.0.Beta1</jboss.javaee6.version>
         <seam.validation.version>3.0.0.Final</seam.validation.version>
         <seam.reports.version>3.0.0.Alpha1</seam.reports.version>
@@ -70,6 +71,7 @@
         <dependency>
             <groupId>org.jboss.seam.persistence</groupId>
             <artifactId>seam-persistence</artifactId>
+            <version>${seam.persistence.version}</version>
         </dependency>
         <dependency>
             <groupId>org.jboss.seam.validation</groupId>
