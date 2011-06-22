@@ -32,6 +32,11 @@
         <div class="container">
             <div class="block">
                 <div class="column span-24">
+                    <h:messages id="messages" />
+                </div>
+            </div>
+            <div class="block">
+                <div class="column span-24">
                     <h:form id="loginForm">
                         <ui:fragment id="loginFormControls" rendered="#{!identity.loggedIn}">
                             <h:outputLabel id="usernameLbl" for="usernameInput" value="Username" />

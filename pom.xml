@@ -19,7 +19,7 @@
     -->
     <properties>
         <seam.bom.version>3.0.0.Final</seam.bom.version>
-        <seam.faces.version>3.0.1.Final</seam.faces.version>
+        <seam.faces.version>3.0.2.Final</seam.faces.version>
         <seam.persistence.version>3.0.1-SNAPSHOT</seam.persistence.version>
         <jboss.javaee6.version>2.0.0.Beta1</jboss.javaee6.version>
         <seam.validation.version>3.0.0.Final</seam.validation.version>
@@ -85,6 +85,12 @@
             <groupId>org.jboss.seam.validation</groupId>
             <artifactId>seam-validation</artifactId>
             <version>${seam.validation.version}</version>
+        </dependency>
+        <!-- This and setting the build to 1.6 enable the annotation processor to be used for logging -->
+        <dependency>
+            <groupId>org.jboss.seam.solder</groupId>
+            <artifactId>seam-solder-tooling</artifactId>
+            <scope>provided</scope>
         </dependency>
         <!--
         <dependency>
