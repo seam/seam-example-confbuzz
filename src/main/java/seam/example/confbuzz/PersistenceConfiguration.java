@@ -16,30 +16,21 @@
  */
 package seam.example.confbuzz;
 
-import java.util.List;
-
-import javax.enterprise.context.RequestScoped;
+import javax.enterprise.context.ConversationScoped;
 import javax.enterprise.inject.Produces;
-import javax.inject.Inject;
-import javax.inject.Named;
-import javax.persistence.EntityManager;
-import javax.persistence.Query;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.PersistenceUnit;
 
-import seam.example.confbuzz.model.Conference;
+import org.jboss.seam.solder.core.ExtensionManaged;
 
 /**
  * @author <a href="http://community.jboss.org/people/LightGuard">Jason Porter</a>
  */
-@RequestScoped
-public class TodaysConferences {
+@SuppressWarnings({"CdiUnproxyableBeanTypesInspection"})
+public class PersistenceConfiguration {
     @Produces
-    @Named
-    private List<Conference> todaysConferences;
-
-    @SuppressWarnings({"unchecked"})
-    @Inject
-    public void init(EntityManager em) {
-        final Query query = em.createQuery("select c from Conference c where c.startDate >= current_date() and c.endDate <= current_date()");
-        this.todaysConferences = query.getResultList();
-    }
+    @ExtensionManaged
+    @ConversationScoped
+    @PersistenceUnit
+    private EntityManagerFactory primary;
 }

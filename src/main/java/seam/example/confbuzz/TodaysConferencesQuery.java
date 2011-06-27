@@ -16,26 +16,29 @@
  */
 package seam.example.confbuzz;
 
-import org.jboss.seam.faces.rewrite.FacesRedirect;
-import org.jboss.seam.faces.rewrite.UrlMapping;
-import org.jboss.seam.faces.security.AccessDeniedView;
-import org.jboss.seam.faces.security.LoginView;
-import org.jboss.seam.faces.view.config.ViewPattern;
+import java.util.List;
+
+import javax.enterprise.context.RequestScoped;
+import javax.enterprise.inject.Produces;
+import javax.inject.Inject;
+import javax.inject.Named;
+import javax.persistence.EntityManager;
+
+import seam.example.confbuzz.model.Conference;
 
 /**
  * @author <a href="http://community.jboss.org/people/LightGuard">Jason Porter</a>
  */
-@org.jboss.seam.faces.view.config.ViewConfig
-public interface ViewMetaData {
-    static enum Pages {
-        @UrlMapping(pattern = "/home")
-        @ViewPattern("/conferences.xhtml")
-        HOME,
+@RequestScoped
+public class TodaysConferencesQuery {
+    @Produces
+    @Named
+    private List<Conference> todaysConferences;
 
-        @FacesRedirect
-        @ViewPattern("/*")
-        @AccessDeniedView("/conferences.xhtml")
-        @LoginView("/conferences.xhtml")
-        ALL
+    @Inject
+    public void init(EntityManager em) {
+        todaysConferences = em
+            .createQuery("select c from Conference c where c.startDate <= current_date() and c.endDate >= current_date()", Conference.class)
+            .getResultList();
     }
 }
