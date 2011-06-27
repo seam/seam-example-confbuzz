@@ -35,4 +35,8 @@ public interface ExceptionLogger {
     @Log(level = Logger.Level.ERROR)
     @Message("Exception occurred: %s")
     void basicException(@Cause Exception e);
+
+    @Log(level = Logger.Level.INFO)
+    @Message("Invalid username and password combination")
+    void loginFailed();
 }

@@ -16,21 +16,32 @@
  */
 package seam.example.confbuzz;
 
-import javax.enterprise.context.ConversationScoped;
-import javax.enterprise.inject.Produces;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.PersistenceUnit;
-
-import org.jboss.seam.solder.core.ExtensionManaged;
+import org.jboss.seam.faces.rewrite.FacesRedirect;
+import org.jboss.seam.faces.rewrite.UrlMapping;
+import org.jboss.seam.faces.security.AccessDeniedView;
+import org.jboss.seam.faces.security.LoginView;
+import org.jboss.seam.faces.view.config.ViewConfig;
+import org.jboss.seam.faces.view.config.ViewPattern;
 
 /**
  * @author <a href="http://community.jboss.org/people/LightGuard">Jason Porter</a>
  */
-@SuppressWarnings({"CdiUnproxyableBeanTypesInspection"})
-public class PersistenceProducer {
-    @ExtensionManaged
-    @Produces
-    @PersistenceUnit
-    @ConversationScoped
-    private EntityManagerFactory producerField;
+@ViewConfig
+public interface BuzzConfViewConfig {
+    static enum Views {
+        @UrlMapping(pattern = "/")
+        @ViewPattern("/conferences.xhtml")
+        ROOT,
+        
+        
+        @UrlMapping(pattern = "/conference/#{id}")
+        @ViewPattern("/conference.xhtml")
+        CONFERENCE,
+
+        @FacesRedirect
+        @ViewPattern("/*")
+        @AccessDeniedView("/conferences.xhtml")
+        @LoginView("/conferences.xhtml")
+        ALL
+    }
 }

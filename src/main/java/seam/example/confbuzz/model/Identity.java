@@ -45,7 +45,7 @@ public class Identity implements Serializable {
     private Long version;
     private String name;
     private String givenFirst;
-    private String giveLast;
+    private String givenLast;
     private String credential;
     private String email;
     private String credentialType;
@@ -90,12 +90,12 @@ public class Identity implements Serializable {
         this.givenFirst = givenFirst;
     }
 
-    public String getGiveLast() {
-        return giveLast;
+    public String getGivenLast() {
+        return givenLast;
     }
 
-    public void setGiveLast(String giveLast) {
-        this.giveLast = giveLast;
+    public void setGivenLast(String givenLast) {
+        this.givenLast = givenLast;
     }
 
     @IdentityProperty(PropertyType.CREDENTIAL)

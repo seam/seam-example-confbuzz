@@ -1,2 +1,6 @@
+.classpath
+.project
+.settings
+target
 blog.html 
-
+src/main/webapp/META-INF
