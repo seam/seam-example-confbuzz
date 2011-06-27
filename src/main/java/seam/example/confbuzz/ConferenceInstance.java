@@ -23,17 +23,40 @@ import javax.enterprise.event.Observes;
 import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityNotFoundException;
 
 import seam.example.confbuzz.model.Conference;
 
 /**
  * @author <a href="http://community.jboss.org/people/LightGuard">Jason Porter</a>
  */
+@Named
 @ConversationScoped
 public class ConferenceInstance implements Serializable {
 
     private Conference instance;
 
+    private Long id;
+    
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    @Inject
+    private EntityManager em;
+    
+    public void load() {
+        instance = em.find(Conference.class, id);
+        if (instance == null) {
+            throw new EntityNotFoundException("No conference with id " + id);
+        }
+    }
+    
     @Inject
     public void init() {
         this.instance = new Conference();

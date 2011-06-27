@@ -31,13 +31,13 @@ import seam.example.confbuzz.model.Conference;
  */
 @RequestScoped
 public class AllConferenceQuery {
+    
     @Produces
     @Named
     private List<Conference> allConferences;
 
-    @SuppressWarnings({"unchecked"})
     @Inject
     public void init(EntityManager em) {
-        this.allConferences = em.createQuery("select c from Conference c order by c.startDate").getResultList();
+        this.allConferences = em.createQuery("select c from Conference c order by c.startDate", Conference.class).getResultList();
     }
 }

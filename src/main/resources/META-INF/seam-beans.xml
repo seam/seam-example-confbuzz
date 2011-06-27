@@ -18,23 +18,21 @@
 <beans xmlns="http://java.sun.com/xml/ns/javaee"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:s="urn:java:ee"
-       xmlns:drools="urn:java:org.jboss.seam.drools:org.jboss.seam.drools.config"
-       xmlns:security="urn:java:org.jboss.seam.security.permission"
-       xmlns:plidm="urn:java:org.jboss.seam.security.management.picketlink"
+       xmlns:sec="urn:java:org.jboss.seam.security.permission:org.jboss.seam.security.management.picketlink"
        xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://jboss.org/schema/cdi/beans_1_0.xsd">
 
-    <security:JpaPermissionStore>
+    <sec:JpaPermissionStore>
         <s:replaces/>
-        <security:identityPermissionClass>seam.example.confbuzz.model.IdentityPermission</security:identityPermissionClass>
-    </security:JpaPermissionStore>
+        <sec:identityPermissionClass>seam.example.confbuzz.model.IdentityPermission</sec:identityPermissionClass>
+    </sec:JpaPermissionStore>
 
-    <plidm:JpaIdentityStoreConfiguration>
+    <sec:JpaIdentityStoreConfiguration>
         <s:replaces/>
-        <plidm:identityClass>seam.example.confbuzz.model.Identity</plidm:identityClass>
-        <plidm:credentialClass>seam.example.confbuzz.model.IdentityCredential</plidm:credentialClass>
-        <plidm:relationshipClass>seam.example.confbuzz.model.IdentityRelationship</plidm:relationshipClass>
-        <plidm:roleTypeClass>seam.example.confbuzz.model.IdentityRole</plidm:roleTypeClass>
-        <plidm:attributeClass>seam.example.confbuzz.model.IdentityAttribute</plidm:attributeClass>
-    </plidm:JpaIdentityStoreConfiguration>
+        <sec:identityClass>seam.example.confbuzz.model.Identity</sec:identityClass>
+        <sec:credentialClass>seam.example.confbuzz.model.IdentityCredential</sec:credentialClass>
+        <sec:relationshipClass>seam.example.confbuzz.model.IdentityRelationship</sec:relationshipClass>
+        <sec:roleTypeClass>seam.example.confbuzz.model.IdentityRole</sec:roleTypeClass>
+        <sec:attributeClass>seam.example.confbuzz.model.IdentityAttribute</sec:attributeClass>
+    </sec:JpaIdentityStoreConfiguration>
 
 </beans>

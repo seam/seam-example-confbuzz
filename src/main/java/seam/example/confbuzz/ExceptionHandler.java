@@ -16,8 +16,14 @@
  */
 package seam.example.confbuzz;
 
-import javax.enterprise.event.Observes;
+import java.io.IOException;
 
+import javax.enterprise.event.Observes;
+import javax.faces.context.FacesContext;
+import javax.persistence.EntityNotFoundException;
+import javax.servlet.http.HttpServletResponse;
+
+import org.jboss.logging.Logger;
 import org.jboss.seam.exception.control.CaughtException;
 import org.jboss.seam.exception.control.Handles;
 import org.jboss.seam.exception.control.HandlesExceptions;
@@ -36,8 +42,21 @@ public class ExceptionHandler {
                                         @TypedCategory(ExceptionHandler.class) ExceptionLogger logger, Credentials creds) {
         logger.authenticationError(creds, e.getException());
     }
+    
+    public void entityNotFoundException(@Handles CaughtException<EntityNotFoundException> e, @TypedCategory(ExceptionHandler.class) Logger logger,
+            HttpServletResponse response, FacesContext ctx) {
+        logger.error(e.getException().getMessage());
+        try {
+            response.sendError(HttpServletResponse.SC_NOT_FOUND);
+            ctx.responseComplete();
+        }
+        catch (IOException io) {
+            io.printStackTrace();
+        }
+    }
 
     public void loginFailed(@Observes LoginFailedEvent event, @TypedCategory(ExceptionHandler.class) ExceptionLogger logger, Messages msg) {
-        msg.error("Username and / or password incorrect");
+        logger.loginFailed();
+        msg.error("Invalid username and password combination. Please try again.");
     }
 }
