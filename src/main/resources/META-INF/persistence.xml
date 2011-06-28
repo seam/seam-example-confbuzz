@@ -4,7 +4,8 @@
              xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd"
              version="2.0">
     <persistence-unit name="confbuzz">
-        <jta-data-source>java:/H2DS</jta-data-source>
+        <!-- TODO: We need to point to how to setup a datasource in AS7 -->
+        <jta-data-source>java:jboss/datasources/ExampleDS</jta-data-source>
         <properties>
             <!-- Properties for Hibernate (default provider for JBoss AS) -->
             <property name="hibernate.hbm2ddl.auto" value="create-drop"/>
