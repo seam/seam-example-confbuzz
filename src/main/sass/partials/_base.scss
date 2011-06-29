@@ -17,6 +17,6 @@ body {
   //@include blueprint-typography(true);
   @include blueprint-liquid-grid;  
 
-  @include background(linear-gradient(top, #aaaaaa, white), no-repeat, fixed);
+  @include background(linear-gradient(top, #4B5EEB, white), no-repeat, fixed);
   font-size: 14pt !important;
 }

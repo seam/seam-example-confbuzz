@@ -33,6 +33,19 @@
         <div class="block">
             <div class="column span-17">
                 <h1>#{conference.name}</h1>
+                <h2>#{conference.tagLine}</h2>
+                <div class="block">
+                    <div class="column span-11">
+                        <h:outputText value="#{conference.startDate} - #{conference.endDate}" />
+                    </div>
+                    <div class="column span-12">
+                        #{conference.location}
+                        <br />
+                        #{conference.tags}
+                    </div>
+                </div>
+                <h2>Speakers</h2>
+                <h2>Attendees</h2>
             </div>
         </div>
     </ui:define>
