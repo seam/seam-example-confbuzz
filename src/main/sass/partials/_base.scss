@@ -1,0 +1,22 @@
+
+@import "compass/reset";
+@import "blueprint";
+@import "fancy-buttons";
+//@import "blueprint/fancy-type";
+@import "blueprint/liquid";
+@import "compass/css3";
+@import "compass/css3/images";
+@import "compass/utilities";
+
+html {
+  height: 100%;
+}
+
+body {
+  //@include fancy-type;
+  //@include blueprint-typography(true);
+  @include blueprint-liquid-grid;  
+
+  @include background(linear-gradient(top, #aaaaaa, white), no-repeat, fixed);
+  font-size: 14pt !important;
+}
