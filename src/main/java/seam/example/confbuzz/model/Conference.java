@@ -42,6 +42,7 @@ public class Conference {
     private Date endDate;
     private String location;
     private Set<String> tags;
+    private String tagLine;
 
     @Id
     @GeneratedValue
@@ -105,6 +106,14 @@ public class Conference {
 
     public void setTags(Set<String> tags) {
         this.tags = tags;
+    }
+
+    public String getTagLine() {
+        return tagLine;
+    }
+
+    public void setTagLine(String tagLine) {
+        this.tagLine = tagLine;
     }
 
     @Override
