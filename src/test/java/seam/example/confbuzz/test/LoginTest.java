@@ -16,7 +16,10 @@
  */
 package seam.example.confbuzz.test;
 
+import java.util.Collection;
+
 import javax.inject.Inject;
+import javax.persistence.EntityManager;
 
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
@@ -24,6 +27,7 @@ import org.jboss.seam.security.Credentials;
 import org.jboss.seam.security.Identity;
 import org.jboss.shrinkwrap.api.Archive;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
+import org.jboss.shrinkwrap.api.asset.EmptyAsset;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.shrinkwrap.resolver.api.DependencyResolvers;
@@ -31,6 +35,7 @@ import org.jboss.shrinkwrap.resolver.api.maven.MavenDependencyResolver;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.picketlink.idm.impl.api.PasswordCredential;
+import seam.example.confbuzz.PersistenceConfiguration;
 import seam.example.confbuzz.model.Conference;
 
 import static org.hamcrest.CoreMatchers.is;
@@ -47,17 +52,26 @@ public class LoginTest {
     @Inject
     Credentials credentials;
 
-    @Deployment
-    public Archive<?> createLoginDeployment() {
-        return ShrinkWrap.create(WebArchive.class, "LoginTest.jar").addPackage(Conference.class.getPackage())
-                .addAsManifestResource("target/test-classes/META-INF/persistence.xml")
-                .addAsManifestResource("target/test-classes/META-INF/seam-beans.xml")
+    @Inject
+    EntityManager em;
+
+    @Deployment(name = "authentication")
+    public static Archive<?> createLoginDeployment() {
+        final Collection<JavaArchive> libraries = DependencyResolvers.use(MavenDependencyResolver.class)
+                .configureFrom("target/test-classes/profiles/settings.xml")
+                .artifacts("org.jboss.seam.security:seam-security:3.0.0.Final",
+                        "org.jboss.seam.persistence:seam-persistence:3.0.0.Final",
+                        "joda-time:joda-time:1.6.2",
+                        "org.jboss.seam.config:seam-config-xml:3.0.0.Final").resolveAs(JavaArchive.class);
+
+        return ShrinkWrap.create(WebArchive.class, "LoginTest.war").addPackage(Conference.class.getPackage())
+                .addClass(PersistenceConfiguration.class)
+                .addAsManifestResource("META-INF/persistence.xml")
+                .addAsManifestResource("META-INF/seam-beans.xml")
+                .addAsResource("auth-import.sql", "import.sql")
+                .addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml")
                 // Have to setup the jboss repository for Aether
-                .addAsLibraries(DependencyResolvers.use(MavenDependencyResolver.class)
-                        .configureFrom("target/test-classes/profiles/settings.xml")
-                        .artifacts("org.jboss.seam.security:seam-security:3.0.0.Final",
-                                "org.jboss.seam.persistence:seam-persistence:3.0.0.Final",
-                                "org.jboss.seam.config:seam-config-xml:3.0.0.Final").resolveAs(JavaArchive.class));
+                .addAsLibraries(libraries);
     }
 
     @Test

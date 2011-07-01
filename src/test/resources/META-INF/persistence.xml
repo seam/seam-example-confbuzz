@@ -11,7 +11,7 @@
             <property name="hibernate.hbm2ddl.auto" value="create-drop"/>
             <property name="hibernate.show_sql" value="true"/>
             <!-- Only format when you need to debug, because it slows things down -->
-            <property name="hibernate.format_sql" value="false"/>
+            <property name="hibernate.format_sql" value="true`2`2"/>
         </properties>
     </persistence-unit>
 </persistence>

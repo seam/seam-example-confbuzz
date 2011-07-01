@@ -26,6 +26,7 @@
         <seam.reports.version>3.0.0.Alpha1</seam.reports.version>
         <jodatime.version>1.6.2</jodatime.version>
         <arquillian.version>1.0.0.CR1</arquillian.version>
+        <arquillian.jbossas7.version>7.0.0.CR1</arquillian.jbossas7.version>
         <richfaces.version>4.0.0.Final</richfaces.version>
         <hibernate.validator.version>4.2.0.CR1</hibernate.validator.version>
         <prettyfaces.version>3.2.1</prettyfaces.version>
@@ -225,7 +226,7 @@
                 <dependency>
                     <groupId>org.jboss.as</groupId>
                     <artifactId>jboss-as-arquillian-container-managed</artifactId>
-                    <version>${arquillian.version}</version>
+                    <version>${arquillian.jbossas7.version}</version>
                     <scope>test</scope>
                 </dependency>
             </dependencies>
@@ -236,7 +237,7 @@
                 <dependency>
                     <groupId>org.jboss.as</groupId>
                     <artifactId>jboss-as-arquillian-container-remote</artifactId>
-                    <version>${arquillian.version}</version>
+                    <version>${arquillian.jbossas7.version}</version>
                     <scope>test</scope>
                 </dependency>
             </dependencies>
