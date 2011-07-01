@@ -19,7 +19,6 @@ package seam.example.confbuzz.test;
 import java.util.Collection;
 
 import javax.inject.Inject;
-import javax.persistence.EntityManager;
 
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
@@ -52,9 +51,6 @@ public class LoginTest {
     @Inject
     Credentials credentials;
 
-    @Inject
-    EntityManager em;
-
     @Deployment(name = "authentication")
     public static Archive<?> createLoginDeployment() {
         final Collection<JavaArchive> libraries = DependencyResolvers.use(MavenDependencyResolver.class)
@@ -66,8 +62,8 @@ public class LoginTest {
 
         return ShrinkWrap.create(WebArchive.class, "LoginTest.war").addPackage(Conference.class.getPackage())
                 .addClass(PersistenceConfiguration.class)
-                .addAsManifestResource("META-INF/persistence.xml")
-                .addAsManifestResource("META-INF/seam-beans.xml")
+                .addAsResource("META-INF/persistence.xml")
+                .addAsResource("META-INF/seam-beans.xml")
                 .addAsResource("auth-import.sql", "import.sql")
                 .addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml")
                 // Have to setup the jboss repository for Aether
@@ -78,6 +74,6 @@ public class LoginTest {
     public void assertUserCanAuthenticate() {
         credentials.setUsername("test");
         credentials.setCredential(new PasswordCredential("password"));
-        assertThat(identity.login(), is("loggedIn"));
+        assertThat(identity.login(), is(Identity.RESPONSE_LOGIN_SUCCESS));
     }
 }
