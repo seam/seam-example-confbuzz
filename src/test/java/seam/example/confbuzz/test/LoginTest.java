@@ -55,8 +55,9 @@ public class LoginTest {
     public static Archive<?> createLoginDeployment() {
         final Collection<JavaArchive> libraries = DependencyResolvers.use(MavenDependencyResolver.class)
                 .configureFrom("target/test-classes/profiles/settings.xml")
-                .artifacts("org.jboss.seam.security:seam-security:3.0.0.Final",
-                        "org.jboss.seam.persistence:seam-persistence:3.0.0.Final",
+                // TODO: Make sure to fix any SNAPSHOTS when we release this example
+                .artifacts("org.jboss.seam.security:seam-security:3.0.1-SNAPSHOT",
+                        "org.jboss.seam.persistence:seam-persistence:3.0.1-SNAPSHOT",
                         "joda-time:joda-time:1.6.2",
                         "org.jboss.seam.config:seam-config-xml:3.0.0.Final").resolveAs(JavaArchive.class);
 

@@ -29,7 +29,6 @@
     <sec:JpaIdentityStoreConfiguration>
         <s:replaces/>
         <sec:identityClass>seam.example.confbuzz.model.Identity</sec:identityClass>
-        <sec:credentialClass>seam.example.confbuzz.model.IdentityCredential</sec:credentialClass>
         <sec:relationshipClass>seam.example.confbuzz.model.IdentityRelationship</sec:relationshipClass>
         <sec:roleTypeClass>seam.example.confbuzz.model.IdentityRole</sec:roleTypeClass>
         <sec:attributeClass>seam.example.confbuzz.model.IdentityAttribute</sec:attributeClass>

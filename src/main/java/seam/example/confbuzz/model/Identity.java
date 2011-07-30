@@ -99,6 +99,8 @@ public class Identity implements Serializable {
     }
 
     @IdentityProperty(PropertyType.CREDENTIAL)
+    @NotNull
+    @Column(nullable = false)
     public String getCredential() {
         return credential;
     }
@@ -107,7 +109,9 @@ public class Identity implements Serializable {
         this.credential = credential;
     }
 
+    @NotNull
     @IdentityProperty(PropertyType.CREDENTIAL_TYPE)
+    @Column(nullable = false)
     public String getCredentialType() {
         return credentialType;
     }
