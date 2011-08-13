@@ -38,7 +38,15 @@ public class ConferenceInstance implements Serializable {
     private Conference instance;
 
     private Long id;
+
+    private EntityManager em;
     
+    @Inject
+    public void init(final EntityManager em) {
+        this.instance = new Conference();
+        this.em = em;
+    }
+
     public Long getId() {
         return id;
     }
@@ -46,20 +54,12 @@ public class ConferenceInstance implements Serializable {
     public void setId(Long id) {
         this.id = id;
     }
-
-    @Inject
-    private EntityManager em;
     
     public void load() {
         instance = em.find(Conference.class, id);
         if (instance == null) {
             throw new EntityNotFoundException("No conference with id " + id);
         }
-    }
-    
-    @Inject
-    public void init() {
-        this.instance = new Conference();
     }
 
     @Produces
