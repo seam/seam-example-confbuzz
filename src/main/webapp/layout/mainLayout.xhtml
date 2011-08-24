@@ -58,6 +58,12 @@
                                 <h:commandLink id="logoutBtn" value="sign out" action="#{identity.logout()}"/>?
                             </h:panelGroup>
                         </div>
+                        <div>
+                        	<h:panelGroup rendered="#{not identity.loggedIn}">
+                        		Don't have an account?
+                        		<h:link value="Sign up" outcome="/profile.xhtml"></h:link>
+                        	</h:panelGroup>
+                        </div>
                     </h:form>
                 </div>
             </div>

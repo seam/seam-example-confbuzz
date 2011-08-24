@@ -16,48 +16,50 @@
   limitations under the License.
   -->
 <ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
-                xmlns:h="http://java.sun.com/jsf/html"
-                xmlns:f="http://java.sun.com/jsf/core"
-                xmlns:a4j="http://richfaces.org/a4j"
-                xmlns:rich="http://richfaces.org/rich"
-                xmlns="http://www.w3.org/1999/xhtml"
-                template="layout/mainLayout.xhtml">
-    <ui:define name="content">
-        <div class="block">
-            <div class="column span-17">
-                <h:form id="tabPnlForm">
-                    <rich:tabPanel id="conferencePnl" switchType="ajax">
-                        <rich:tab id="todayTab" header="Today's Conferences">
-                            <a4j:repeat id="todayConferenceList" value="#{todaysConferences}" var="_conference">
-                                <div>
-                                    <h:link id="conferenceLink" value="#{_conference.name}" outcome="/conference.xhtml">
-                                        <f:param name="id" value="#{_conference.id}"/>
-                                    </h:link>
-                                    <br/>
-                                    #{_conference.location}<br/>
-                                    #{_conference.startDate} - #{_conference.endDate}
-                                </div>
-                            </a4j:repeat>
-                        </rich:tab>
-                        <rich:tab id="allConferencesTab" header="All Conferences">
-                            <!-- TODO: may actually need to make a component to lay this out the way that's listed
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns="http://www.w3.org/1999/xhtml" template="layout/mainLayout.xhtml">
+	<ui:param name="pageClass" value="home" />
+
+	<ui:define name="content">
+		<div class="block">
+			<div class="column span-17">
+				<h:form id="tabPnlForm">
+					<rich:tabPanel id="conferencePnl" switchType="ajax">
+						<rich:tab id="todayTab" header="Today's Conferences">
+							<a4j:repeat id="todayConferenceList" value="#{todaysConferences}"
+								var="_conference">
+								<div>
+									<h:link id="conferenceLink" value="#{_conference.name}"
+										outcome="/conference.xhtml">
+										<f:param name="id" value="#{_conference.id}" />
+									</h:link>
+									<br /> #{_conference.location}<br /> #{_conference.startDate} -
+									#{_conference.endDate}
+								</div>
+							</a4j:repeat>
+						</rich:tab>
+						<rich:tab id="allConferencesTab" header="All Conferences">
+							<!-- TODO: may actually need to make a component to lay this out the way that's listed
                                        in the spec
                             -->
-                            <a4j:repeat id="allConferenceList" value="#{allConferences}" var="_conference">
-                                <div>
-                                    <h:link id="conferenceLink" value="#{_conference.name}" outcome="/conference.xhtml">
-                                        <f:param name="id" value="#{_conference.id}"/>
-                                    </h:link>
-                                    <br/>
-                                    #{_conference.location}<br/>
-                                    #{_conference.startDate} - #{_conference.endDate}<br/>
-                                    #{_conference.tags}
-                                </div>
-                            </a4j:repeat>
-                        </rich:tab>
-                    </rich:tabPanel>
-                </h:form>
-            </div>
-        </div>
-    </ui:define>
+							<a4j:repeat id="allConferenceList" value="#{allConferences}"
+								var="_conference">
+								<div>
+									<h:link id="conferenceLink" value="#{_conference.name}"
+										outcome="/conference.xhtml">
+										<f:param name="id" value="#{_conference.id}" />
+									</h:link>
+									<br /> #{_conference.location}<br /> #{_conference.startDate} -
+									#{_conference.endDate}<br /> #{_conference.tags}
+								</div>
+							</a4j:repeat>
+						</rich:tab>
+					</rich:tabPanel>
+				</h:form>
+			</div>
+		</div>
+	</ui:define>
 </ui:composition>
