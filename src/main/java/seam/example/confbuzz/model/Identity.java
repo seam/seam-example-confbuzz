@@ -44,10 +44,7 @@ public class Identity implements Serializable {
     private Long id;
     private Long version;
     private String name;
-    private String givenFirst;
-    private String givenLast;
     private String credential;
-    private String email;
     private String credentialType;
     private IdentityType type;
 
@@ -82,25 +79,7 @@ public class Identity implements Serializable {
         this.name = name;
     }
 
-    public String getGivenFirst() {
-        return givenFirst;
-    }
-
-    public void setGivenFirst(String givenFirst) {
-        this.givenFirst = givenFirst;
-    }
-
-    public String getGivenLast() {
-        return givenLast;
-    }
-
-    public void setGivenLast(String givenLast) {
-        this.givenLast = givenLast;
-    }
-
     @IdentityProperty(PropertyType.CREDENTIAL)
-    @NotNull
-    @Column(nullable = false)
     public String getCredential() {
         return credential;
     }
@@ -109,26 +88,13 @@ public class Identity implements Serializable {
         this.credential = credential;
     }
 
-    @NotNull
     @IdentityProperty(PropertyType.CREDENTIAL_TYPE)
-    @Column(nullable = false)
     public String getCredentialType() {
         return credentialType;
     }
 
     public void setCredentialType(String credentialType) {
         this.credentialType = credentialType;
-    }
-
-    @Email
-    @NotNull
-    @Column(nullable = false)
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
     }
 
     @ManyToOne
