@@ -19,12 +19,6 @@ package seam.example.confbuzz.test.integration;
 import java.util.Collection;
 
 import javax.inject.Inject;
-import javax.transaction.HeuristicMixedException;
-import javax.transaction.HeuristicRollbackException;
-import javax.transaction.NotSupportedException;
-import javax.transaction.RollbackException;
-import javax.transaction.SystemException;
-import javax.transaction.UserTransaction;
 
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
@@ -62,9 +56,6 @@ public class LoginIntegrationTest {
     private UserAction userAction;
 
     @Inject
-    private UserTransaction tx;
-
-    @Inject
     private Identity identity;
 
     @Inject
@@ -83,7 +74,7 @@ public class LoginIntegrationTest {
                 .addPackage(seam.example.confbuzz.model.Identity.class.getPackage())
                 .addAsResource("META-INF/persistence.xml")
                 .addAsResource("META-INF/seam-beans.xml")
-//                .addAsResource("auth-import.sql", "import.sql")
+                .addAsResource("auth-import.sql", "import.sql") // HUGE GOTCHA!!! IDENTITY TYPES MUST BE IN THE DB BEFORE CREATING IDENTITIES
                 .addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml")
                 // TODO: Need to find a better way to do this
                 // This is to insure logmanager is used on AS7
@@ -97,32 +88,13 @@ public class LoginIntegrationTest {
                 .addAsLibraries(libraries);
     }
 
-//    @Before
-//    public void setupTestUser() throws IdentityException, SystemException, RollbackException, HeuristicRollbackException, HeuristicMixedException, NotSupportedException {
-//        tx.begin();
-//        em.joinTransaction();
-////        identitySession.beginTransaction();
-//        final PersistenceManager pm = identitySession.getPersistenceManager();
-//        final User testUser = pm.createUser("test");
-//
-//        final AttributesManager attributesManager = identitySession.getAttributesManager();
-//        attributesManager.updatePassword(testUser, "password");
-//        attributesManager.addAttribute(testUser, "email", "test.login@test.com");
-//
-//        identitySession.save();
-//        tx.commit();
-////        identitySession.getTransaction().commit();
-//    }
-
     @Before
-    public void setupTestUser() throws IdentityException, FeatureNotSupportedException, SystemException, NotSupportedException, RollbackException, HeuristicRollbackException, HeuristicMixedException {
-        tx.begin();
+    public void setupTestUser() throws IdentityException, FeatureNotSupportedException {
         userAction.createUser();
         userAction.setUsername("test");
         userAction.setPassword("password");
         userAction.setConfirm("password");
         userAction.save();
-        tx.commit();
     }
 
     @Test
