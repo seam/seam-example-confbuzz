@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package seam.example.confbuzz.test;
+package seam.example.confbuzz.test.integration;
 
 import java.util.Collection;
 
@@ -46,7 +46,7 @@ import static org.junit.Assert.assertThat;
  * @author <a href="http://community.jboss.org/people/LightGuard">Jason Porter</a>
  */
 @RunWith(Arquillian.class)
-public class LoginTest {
+public class LoginIntegrationTest {
     @Inject
     Identity identity;
 
@@ -61,7 +61,7 @@ public class LoginTest {
                 .loadDependenciesFromPom("pom.xml")
                 .resolveAs(JavaArchive.class, new ScopeFilter("compile", "runtime"));
 
-        return ShrinkWrap.create(WebArchive.class, "LoginTest.war").addPackage(Conference.class.getPackage())
+        return ShrinkWrap.create(WebArchive.class, "LoginIntegrationTest.war").addPackage(Conference.class.getPackage())
                 .addClass(PersistenceConfiguration.class)
                 .addAsResource("META-INF/persistence.xml")
                 .addAsResource("META-INF/seam-beans.xml")
