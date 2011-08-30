@@ -27,10 +27,12 @@ import org.jboss.seam.security.Identity;
 import org.jboss.shrinkwrap.api.Archive;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.EmptyAsset;
+import org.jboss.shrinkwrap.api.asset.StringAsset;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.shrinkwrap.resolver.api.DependencyResolvers;
 import org.jboss.shrinkwrap.resolver.api.maven.MavenDependencyResolver;
+import org.jboss.shrinkwrap.resolver.api.maven.filter.ScopeFilter;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.picketlink.idm.impl.api.PasswordCredential;
@@ -53,13 +55,11 @@ public class LoginTest {
 
     @Deployment(name = "authentication")
     public static Archive<?> createLoginDeployment() {
+        // This is the simplest way to test the full archive as you will be deploying it
         final Collection<JavaArchive> libraries = DependencyResolvers.use(MavenDependencyResolver.class)
-                .configureFrom("target/test-classes/profiles/settings.xml")
-                // TODO: Make sure to fix any SNAPSHOTS when we release this example
-                .artifacts("org.jboss.seam.security:seam-security:3.0.1-SNAPSHOT",
-                        "org.jboss.seam.persistence:seam-persistence:3.0.1-SNAPSHOT",
-                        "joda-time:joda-time:1.6.2",
-                        "org.jboss.seam.config:seam-config-xml:3.0.0.Final").resolveAs(JavaArchive.class);
+                .loadReposFromPom("pom.xml")
+                .loadDependenciesFromPom("pom.xml")
+                .resolveAs(JavaArchive.class, new ScopeFilter("compile", "runtime"));
 
         return ShrinkWrap.create(WebArchive.class, "LoginTest.war").addPackage(Conference.class.getPackage())
                 .addClass(PersistenceConfiguration.class)
@@ -67,7 +67,14 @@ public class LoginTest {
                 .addAsResource("META-INF/seam-beans.xml")
                 .addAsResource("auth-import.sql", "import.sql")
                 .addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml")
-                // Have to setup the jboss repository for Aether
+                // TODO: Need to find a better way to do this
+                .addAsWebInfResource(new StringAsset("<jboss-deployment-structure>\n" +
+                        "  <deployment>\n" +
+                        "    <dependencies>\n" +
+                        "      <module name=\"org.jboss.logmanager\" />\n" +
+                        "    </dependencies>\n" +
+                        "  </deployment>\n" +
+                        "</jboss-deployment-structure>"), "jboss-deployment-structure.xml")
                 .addAsLibraries(libraries);
     }
 

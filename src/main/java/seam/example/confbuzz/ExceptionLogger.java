@@ -16,10 +16,10 @@
  */
 package seam.example.confbuzz;
 
-import org.jboss.logging.Logger;
+import org.jboss.seam.logging.Log;
+import org.jboss.seam.logging.Logger;
+import org.jboss.seam.logging.MessageLogger;
 import org.jboss.seam.security.Credentials;
-import org.jboss.seam.solder.logging.Log;
-import org.jboss.seam.solder.logging.MessageLogger;
 import org.jboss.seam.solder.messages.Cause;
 import org.jboss.seam.solder.messages.Message;
 

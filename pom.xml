@@ -18,19 +18,13 @@
         provided artifacts and others
     -->
     <properties>
-        <seam.bom.version>3.0.0.Final</seam.bom.version>
-        <seam.faces.version>3.1.0-SNAPSHOT</seam.faces.version>
-        <seam.persistence.version>3.0.1-SNAPSHOT</seam.persistence.version>
-        <seam.security.version>3.0.1-SNAPSHOT</seam.security.version>
+        <seam.bom.version>3.1.0.Beta2</seam.bom.version>
         <jboss.javaee6.version>2.0.0.Beta1</jboss.javaee6.version>
-        <seam.validation.version>3.0.0.Final</seam.validation.version>
-        <seam.reports.version>3.0.0.Alpha1</seam.reports.version>
         <jodatime.version>1.6.2</jodatime.version>
-        <arquillian.version>1.0.0.CR1</arquillian.version>
+        <arquillian.version>1.0.0.CR2</arquillian.version>
         <arquillian.jbossas7.version>7.0.0.Final</arquillian.jbossas7.version>
         <richfaces.version>4.0.0.Final</richfaces.version>
-        <hibernate.validator.version>4.2.0.CR1</hibernate.validator.version>
-        <prettyfaces.version>3.2.1</prettyfaces.version>
+        <prettyfaces.version>3.3.0</prettyfaces.version>
         <junit.version>4.8.2</junit.version>
 
         <jboss.home>${env.JBOSS_HOME}</jboss.home>
@@ -67,7 +61,10 @@
         <dependency>
             <groupId>org.jboss.seam.faces</groupId>
             <artifactId>seam-faces</artifactId>
-            <version>${seam.faces.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.seam.international</groupId>
+            <artifactId>seam-international</artifactId>
         </dependency>
         <dependency>
             <groupId>org.jboss.seam.catch</groupId>
@@ -76,7 +73,6 @@
         <dependency>
             <groupId>org.jboss.seam.security</groupId>
             <artifactId>seam-security</artifactId>
-            <version>${seam.security.version}</version>
         </dependency>
         <dependency>
             <groupId>org.jboss.seam.config</groupId>
@@ -85,18 +81,10 @@
         <dependency>
             <groupId>org.jboss.seam.persistence</groupId>
             <artifactId>seam-persistence</artifactId>
-            <version>${seam.persistence.version}</version>
         </dependency>
         <dependency>
             <groupId>org.jboss.seam.validation</groupId>
             <artifactId>seam-validation</artifactId>
-            <version>${seam.validation.version}</version>
-            <exclusions>
-                <exclusion>
-                    <artifactId>javax.validation</artifactId>
-                    <groupId>validation-api</groupId>
-                </exclusion>
-            </exclusions>
         </dependency>
         <!-- This and setting the build to 1.6 enable the annotation processor to be used for logging -->
         <dependency>
@@ -104,13 +92,6 @@
             <artifactId>seam-solder-tooling</artifactId>
             <scope>provided</scope>
         </dependency>
-        <!--
-        <dependency>
-            <groupId>org.jboss.seam.reports</groupId>
-            <artifactId>seam-reports-jasper</artifactId>
-            <version>${seam.reports.version}</version>
-        </dependency>
-        -->
         <dependency>
             <groupId>joda-time</groupId>
             <artifactId>joda-time</artifactId>
@@ -124,29 +105,17 @@
             <groupId>org.richfaces.core</groupId>
             <artifactId>richfaces-core-impl</artifactId>
         </dependency>
-        <dependency>
-            <groupId>javax.validation</groupId>
-            <artifactId>validation-api</artifactId>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-validator</artifactId>
-            <version>${hibernate.validator.version}</version>
-        </dependency>
-        <!-- exclusion needed for JBoss AS 6 -->
-        <!--
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
-            <scope>provided</scope>
-            <version>1.5.10</version>
-        </dependency>
-        -->
+
+        <!-- Runtime dependencies -->
         <dependency>
             <groupId>com.ocpsoft</groupId>
             <artifactId>prettyfaces-jsf2</artifactId>
             <version>${prettyfaces.version}</version>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.seam.transaction</groupId>
+            <artifactId>seam-transaction</artifactId>
         </dependency>
 
         <dependency>
@@ -155,11 +124,16 @@
             <version>${arquillian.version}</version>
             <scope>test</scope>
         </dependency>
-
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.shrinkwrap.resolver</groupId>
+            <artifactId>shrinkwrap-resolver-impl-maven</artifactId>
+            <version>1.0.0-beta-3</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
@@ -222,7 +196,10 @@
         <profile>
             <id>arq-jboss-as-managed</id>
             <activation>
-                <activeByDefault>true</activeByDefault>
+                <property>
+                    <name>arq-jboss-as-managed</name>
+                    <value>!false</value>
+                </property>
             </activation>
             <dependencies>
                 <dependency>
@@ -235,6 +212,11 @@
         </profile>
         <profile>
             <id>arq-jboss-as-remote</id>
+            <activation>
+                <property>
+                    <name>arq-jboss-as-remote</name>
+                </property>
+            </activation>
             <dependencies>
                 <dependency>
                     <groupId>org.jboss.as</groupId>
