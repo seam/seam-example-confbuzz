@@ -29,7 +29,8 @@
         </protocol>
         <configuration>
             <property name="javaVmArguments">-client -noverify -XX:+UseFastAccessorMethods -Xms64m -Xmx512m</property>
-            <property name="jbossHome">target/jboss-as-7.0.1.Final</property>
+            <!--<property name="jbossHome">target/jboss-as-7.0.1.Final</property>-->
+            <property name="jbossHome">/home/jporter/java_libraries/jboss-as/build/target/jboss-as-7.0.1.Final</property>
         </configuration>
     </container>
 </arquillian>

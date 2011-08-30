@@ -19,11 +19,18 @@ package seam.example.confbuzz.test.integration;
 import java.util.Collection;
 
 import javax.inject.Inject;
+import javax.transaction.HeuristicMixedException;
+import javax.transaction.HeuristicRollbackException;
+import javax.transaction.NotSupportedException;
+import javax.transaction.RollbackException;
+import javax.transaction.SystemException;
+import javax.transaction.UserTransaction;
 
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.seam.security.Credentials;
 import org.jboss.seam.security.Identity;
+import org.jboss.seam.security.management.action.UserAction;
 import org.jboss.shrinkwrap.api.Archive;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.EmptyAsset;
@@ -33,8 +40,11 @@ import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.shrinkwrap.resolver.api.DependencyResolvers;
 import org.jboss.shrinkwrap.resolver.api.maven.MavenDependencyResolver;
 import org.jboss.shrinkwrap.resolver.api.maven.filter.ScopeFilter;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.picketlink.idm.common.exception.FeatureNotSupportedException;
+import org.picketlink.idm.common.exception.IdentityException;
 import org.picketlink.idm.impl.api.PasswordCredential;
 import seam.example.confbuzz.PersistenceConfiguration;
 import seam.example.confbuzz.model.Conference;
@@ -47,11 +57,18 @@ import static org.junit.Assert.assertThat;
  */
 @RunWith(Arquillian.class)
 public class LoginIntegrationTest {
+    // These two are needed to create the user and it's password
     @Inject
-    Identity identity;
+    private UserAction userAction;
 
     @Inject
-    Credentials credentials;
+    private UserTransaction tx;
+
+    @Inject
+    private Identity identity;
+
+    @Inject
+    private Credentials credentials;
 
     @Deployment(name = "authentication")
     public static Archive<?> createLoginDeployment() {
@@ -63,11 +80,13 @@ public class LoginIntegrationTest {
 
         return ShrinkWrap.create(WebArchive.class, "LoginIntegrationTest.war").addPackage(Conference.class.getPackage())
                 .addClass(PersistenceConfiguration.class)
+                .addPackage(seam.example.confbuzz.model.Identity.class.getPackage())
                 .addAsResource("META-INF/persistence.xml")
                 .addAsResource("META-INF/seam-beans.xml")
-                .addAsResource("auth-import.sql", "import.sql")
+//                .addAsResource("auth-import.sql", "import.sql")
                 .addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml")
                 // TODO: Need to find a better way to do this
+                // This is to insure logmanager is used on AS7
                 .addAsWebInfResource(new StringAsset("<jboss-deployment-structure>\n" +
                         "  <deployment>\n" +
                         "    <dependencies>\n" +
@@ -76,6 +95,34 @@ public class LoginIntegrationTest {
                         "  </deployment>\n" +
                         "</jboss-deployment-structure>"), "jboss-deployment-structure.xml")
                 .addAsLibraries(libraries);
+    }
+
+//    @Before
+//    public void setupTestUser() throws IdentityException, SystemException, RollbackException, HeuristicRollbackException, HeuristicMixedException, NotSupportedException {
+//        tx.begin();
+//        em.joinTransaction();
+////        identitySession.beginTransaction();
+//        final PersistenceManager pm = identitySession.getPersistenceManager();
+//        final User testUser = pm.createUser("test");
+//
+//        final AttributesManager attributesManager = identitySession.getAttributesManager();
+//        attributesManager.updatePassword(testUser, "password");
+//        attributesManager.addAttribute(testUser, "email", "test.login@test.com");
+//
+//        identitySession.save();
+//        tx.commit();
+////        identitySession.getTransaction().commit();
+//    }
+
+    @Before
+    public void setupTestUser() throws IdentityException, FeatureNotSupportedException, SystemException, NotSupportedException, RollbackException, HeuristicRollbackException, HeuristicMixedException {
+        tx.begin();
+        userAction.createUser();
+        userAction.setUsername("test");
+        userAction.setPassword("password");
+        userAction.setConfirm("password");
+        userAction.save();
+        tx.commit();
     }
 
     @Test
