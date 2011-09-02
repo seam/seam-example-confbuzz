@@ -61,7 +61,7 @@
                         <div>
                         	<h:panelGroup rendered="#{not identity.loggedIn}">
                         		Don't have an account?
-                        		<h:link value="Sign up" outcome="/profile.xhtml"></h:link>
+                        		<h:commandLink action="#{userAction.createUser}" value="Sign up" />
                         	</h:panelGroup>
                         </div>
                     </h:form>
