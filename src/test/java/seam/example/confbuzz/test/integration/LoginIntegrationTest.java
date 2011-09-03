@@ -58,9 +58,6 @@ public class LoginIntegrationTest {
     @Inject
     private Identity identity;
 
-    @Inject
-    private Credentials credentials;
-
     @Deployment(name = "authentication")
     public static Archive<?> createLoginDeployment() {
         // This is the simplest way to test the full archive as you will be deploying it
@@ -98,7 +95,7 @@ public class LoginIntegrationTest {
     }
 
     @Test
-    public void assertUserCanAuthenticate() {
+    public void assertUserCanAuthenticate(Credentials credentials) {
         credentials.setUsername("test");
         credentials.setCredential(new PasswordCredential("password"));
         assertThat(identity.login(), is(Identity.RESPONSE_LOGIN_SUCCESS));

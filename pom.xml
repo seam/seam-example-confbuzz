@@ -27,7 +27,7 @@
         <prettyfaces.version>3.3.0</prettyfaces.version>
         <junit.version>4.8.2</junit.version>
 
-        <jbossas.7.version>7.0.1.Final</jbossas.7.version>
+        <jbossas.7.version>7.0.0.Final</jbossas.7.version>
     </properties>
 
     <!-- Use the Seam 3 BOM to get the correct versions for most modules -->
@@ -270,6 +270,7 @@
                                     <redirectTestOutputToFile>true</redirectTestOutputToFile>
                                     <trimStackTrace>false</trimStackTrace>
                                     <printSummary>true</printSummary>
+                                    <forkMode>once</forkMode>
                                 </configuration>
                             </execution>
                         </executions>
