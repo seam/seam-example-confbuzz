@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package seam.example.confbuzz.test;
+package seam.example.confbuzz.test.integration;
 
 import java.util.Collection;
 
@@ -24,15 +24,21 @@ import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.seam.security.Credentials;
 import org.jboss.seam.security.Identity;
+import org.jboss.seam.security.management.action.UserAction;
 import org.jboss.shrinkwrap.api.Archive;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.EmptyAsset;
+import org.jboss.shrinkwrap.api.asset.StringAsset;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.shrinkwrap.resolver.api.DependencyResolvers;
 import org.jboss.shrinkwrap.resolver.api.maven.MavenDependencyResolver;
+import org.jboss.shrinkwrap.resolver.api.maven.filter.ScopeFilter;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.picketlink.idm.common.exception.FeatureNotSupportedException;
+import org.picketlink.idm.common.exception.IdentityException;
 import org.picketlink.idm.impl.api.PasswordCredential;
 import seam.example.confbuzz.PersistenceConfiguration;
 import seam.example.confbuzz.model.Conference;
@@ -44,35 +50,52 @@ import static org.junit.Assert.assertThat;
  * @author <a href="http://community.jboss.org/people/LightGuard">Jason Porter</a>
  */
 @RunWith(Arquillian.class)
-public class LoginTest {
+public class LoginIntegrationTest {
+    // These two are needed to create the user and it's password
     @Inject
-    Identity identity;
+    private UserAction userAction;
 
     @Inject
-    Credentials credentials;
+    private Identity identity;
 
     @Deployment(name = "authentication")
     public static Archive<?> createLoginDeployment() {
+        // This is the simplest way to test the full archive as you will be deploying it
         final Collection<JavaArchive> libraries = DependencyResolvers.use(MavenDependencyResolver.class)
-                .configureFrom("target/test-classes/profiles/settings.xml")
-                // TODO: Make sure to fix any SNAPSHOTS when we release this example
-                .artifacts("org.jboss.seam.security:seam-security:3.0.1-SNAPSHOT",
-                        "org.jboss.seam.persistence:seam-persistence:3.0.1-SNAPSHOT",
-                        "joda-time:joda-time:1.6.2",
-                        "org.jboss.seam.config:seam-config-xml:3.0.0.Final").resolveAs(JavaArchive.class);
+                .loadReposFromPom("pom.xml")
+                .loadDependenciesFromPom("pom.xml")
+                .resolveAs(JavaArchive.class, new ScopeFilter("compile", "runtime"));
 
-        return ShrinkWrap.create(WebArchive.class, "LoginTest.war").addPackage(Conference.class.getPackage())
+        return ShrinkWrap.create(WebArchive.class, "LoginIntegrationTest.war").addPackage(Conference.class.getPackage())
                 .addClass(PersistenceConfiguration.class)
+                .addPackage(seam.example.confbuzz.model.Identity.class.getPackage())
                 .addAsResource("META-INF/persistence.xml")
                 .addAsResource("META-INF/seam-beans.xml")
-                .addAsResource("auth-import.sql", "import.sql")
+                .addAsResource("auth-import.sql", "import.sql") // HUGE GOTCHA!!! IDENTITY TYPES MUST BE IN THE DB BEFORE CREATING IDENTITIES
                 .addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml")
-                // Have to setup the jboss repository for Aether
+                // TODO: Need to find a better way to do this
+                // This is to insure logmanager is used on AS7
+                .addAsWebInfResource(new StringAsset("<jboss-deployment-structure>\n" +
+                        "  <deployment>\n" +
+                        "    <dependencies>\n" +
+                        "      <module name=\"org.jboss.logmanager\" />\n" +
+                        "    </dependencies>\n" +
+                        "  </deployment>\n" +
+                        "</jboss-deployment-structure>"), "jboss-deployment-structure.xml")
                 .addAsLibraries(libraries);
     }
 
+    @Before
+    public void setupTestUser() throws IdentityException, FeatureNotSupportedException {
+        userAction.createUser();
+        userAction.setUsername("test");
+        userAction.setPassword("password");
+        userAction.setConfirm("password");
+        userAction.save();
+    }
+
     @Test
-    public void assertUserCanAuthenticate() {
+    public void assertUserCanAuthenticate(Credentials credentials) {
         credentials.setUsername("test");
         credentials.setCredential(new PasswordCredential("password"));
         assertThat(identity.login(), is(Identity.RESPONSE_LOGIN_SUCCESS));

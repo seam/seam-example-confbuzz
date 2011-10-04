@@ -16,12 +16,12 @@
  */
 package seam.example.confbuzz;
 
-import org.jboss.logging.Logger;
 import org.jboss.seam.security.Credentials;
-import org.jboss.seam.solder.logging.Log;
-import org.jboss.seam.solder.logging.MessageLogger;
-import org.jboss.seam.solder.messages.Cause;
-import org.jboss.seam.solder.messages.Message;
+import org.jboss.solder.logging.Log;
+import org.jboss.solder.logging.Logger;
+import org.jboss.solder.logging.MessageLogger;
+import org.jboss.solder.logging.internal.Cause;
+import org.jboss.solder.logging.internal.Message;
 
 /**
  * @author <a href="http://community.jboss.org/people/LightGuard">Jason Porter</a>

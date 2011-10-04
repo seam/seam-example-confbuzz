@@ -27,7 +27,6 @@ import javax.persistence.Id;
  */
 @Entity
 public class IdentityRole implements Serializable {
-    private static final long serialVersionUID = -7150497159931968286L;
     private Long id;
     private String name;
 

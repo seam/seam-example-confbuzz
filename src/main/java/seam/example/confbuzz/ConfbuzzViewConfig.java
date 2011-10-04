@@ -14,39 +14,34 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package seam.example.confbuzz.model;
+package seam.example.confbuzz;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-
-import org.jboss.seam.security.annotations.management.IdentityProperty;
-import org.jboss.seam.security.annotations.management.PropertyType;
+import org.jboss.seam.faces.rewrite.FacesRedirect;
+import org.jboss.seam.faces.rewrite.UrlMapping;
+import org.jboss.seam.faces.security.AccessDeniedView;
+import org.jboss.seam.faces.security.LoginView;
+import org.jboss.seam.faces.view.config.ViewConfig;
+import org.jboss.seam.faces.view.config.ViewPattern;
 
 /**
  * @author <a href="http://community.jboss.org/people/LightGuard">Jason Porter</a>
  */
-@Entity
-public class IdentityCredentialType {
-    private Long id;
-    private String name;
+@ViewConfig
+public interface ConfbuzzViewConfig {
+    static enum Views {
+        @UrlMapping(pattern = "/")
+        @ViewPattern("/conferences.xhtml")
+        ROOT,
+        
+        
+        @UrlMapping(pattern = "/conference/#{id}")
+        @ViewPattern("/conference.xhtml")
+        CONFERENCE,
 
-    @Id
-    @GeneratedValue
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    @IdentityProperty(PropertyType.NAME)
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
+        @FacesRedirect
+        @ViewPattern("/*")
+        @AccessDeniedView("/conferences.xhtml")
+        @LoginView("/conferences.xhtml")
+        ALL
     }
 }
