@@ -26,14 +26,14 @@
 	<ui:define name="content">
 		<div class="block">
 			<div class="column span-17">
-				<h:form id="signupData">
+				<h:form id="user">
 					<h:outputLabel value="Username: " />
-					<h:inputText value="#{credentials.username}" /><br />
+					<h:inputText value="#{userAction.username}" /><br />
 					<h:outputLabel value="Password: " />
-					<h:inputText value="#{credentials.password}" /><br />
+					<h:inputText value="#{userAction.password}" /><br />
 					<h:outputLabel value="Retype your Password: " />
-					<h:inputText value="#{credentials.password}" /><br />
-					
+					<h:inputText value="#{userAction.confirm}" /><br />
+					<h:commandButton value="Sign up!" action="#{userAction.save}" />			
 				</h:form>
 			</div>
 		</div>

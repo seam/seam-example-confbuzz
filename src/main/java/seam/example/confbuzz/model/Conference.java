@@ -26,7 +26,7 @@ import javax.persistence.Id;
 import javax.persistence.Version;
 import javax.validation.constraints.NotNull;
 
-import org.jboss.seam.solder.core.Veto;
+import org.jboss.solder.core.Veto;
 
 /**
  * @author <a href="http://community.jboss.org/people/LightGuard">Jason Porter</a>

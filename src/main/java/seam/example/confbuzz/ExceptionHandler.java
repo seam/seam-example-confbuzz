@@ -23,15 +23,15 @@ import javax.faces.context.FacesContext;
 import javax.persistence.EntityNotFoundException;
 import javax.servlet.http.HttpServletResponse;
 
-import org.jboss.seam.exception.control.CaughtException;
-import org.jboss.seam.exception.control.Handles;
-import org.jboss.seam.exception.control.HandlesExceptions;
 import org.jboss.seam.international.status.Messages;
-import org.jboss.seam.logging.Logger;
-import org.jboss.seam.logging.TypedCategory;
 import org.jboss.seam.security.AuthenticationException;
 import org.jboss.seam.security.Credentials;
 import org.jboss.seam.security.events.LoginFailedEvent;
+import org.jboss.solder.exception.control.CaughtException;
+import org.jboss.solder.exception.control.Handles;
+import org.jboss.solder.exception.control.HandlesExceptions;
+import org.jboss.solder.logging.Logger;
+import org.jboss.solder.logging.TypedCategory;
 
 /**
  * @author <a href="http://community.jboss.org/people/LightGuard">Jason Porter</a>

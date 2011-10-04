@@ -6,3 +6,4 @@ blog.html
 src/main/webapp/META-INF
 .sass-cache
 src/main/webapp/stylesheets
+*.faces-config.xml.jsfdia

@@ -1,24 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
 
-    <groupId>org.jboss.seam.examples</groupId>
-    <artifactId>confbuzz</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
-    <packaging>war</packaging>
-    <name>Seam 3 Confbuzz Example</name>
-    <description>
+	<groupId>org.jboss.seam.examples</groupId>
+	<artifactId>confbuzz</artifactId>
+	<version>1.0.0-SNAPSHOT</version>
+	<packaging>war</packaging>
+	<name>Seam 3 Confbuzz Example</name>
+	<description>
         A sample application using various Seam 3 modules, based on lanyard.com.
     </description>
-
     <!--
         Versions which we will be overriding with versions since 3.0.0.Final release, arquillian,
         provided artifacts and others
     -->
     <properties>
-        <seam.bom.version>3.1.0.Beta2</seam.bom.version>
+        <seam.bom.version>3.1.0.Beta3</seam.bom.version>
         <jboss.javaee6.version>2.0.0.Beta1</jboss.javaee6.version>
         <jodatime.version>1.6.2</jodatime.version>
         <arquillian.version>1.0.0.CR2</arquillian.version>
@@ -29,27 +27,25 @@
 
         <jbossas.7.version>7.0.0.Final</jbossas.7.version>
     </properties>
-
-    <!-- Use the Seam 3 BOM to get the correct versions for most modules -->
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>org.jboss.seam</groupId>
-                <artifactId>seam-bom</artifactId>
-                <version>${seam.bom.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-            <dependency>
-                <groupId>org.richfaces</groupId>
-                <artifactId>richfaces-bom</artifactId>
-                <version>${richfaces.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
-
+	<!-- Use the Seam 3 BOM to get the correct versions for most modules -->
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.jboss.seam</groupId>
+				<artifactId>seam-bom</artifactId>
+				<version>${seam.bom.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.richfaces</groupId>
+				<artifactId>richfaces-bom</artifactId>
+				<version>${richfaces.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
     <dependencies>
         <dependency>
             <groupId>org.jboss.spec</groupId>
@@ -67,16 +63,9 @@
             <artifactId>seam-international</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.jboss.seam.catch</groupId>
-            <artifactId>seam-catch</artifactId>
-        </dependency>
-        <dependency>
             <groupId>org.jboss.seam.security</groupId>
             <artifactId>seam-security</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.jboss.seam.config</groupId>
-            <artifactId>seam-config-xml</artifactId>
+            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>org.jboss.seam.persistence</groupId>
@@ -87,11 +76,6 @@
             <artifactId>seam-validation</artifactId>
         </dependency>
         <!-- This and setting the build to 1.6 enable the annotation processor to be used for logging -->
-        <dependency>
-            <groupId>org.jboss.seam.solder</groupId>
-            <artifactId>seam-solder-tooling</artifactId>
-            <scope>provided</scope>
-        </dependency>
         <dependency>
             <groupId>joda-time</groupId>
             <artifactId>joda-time</artifactId>
