@@ -22,6 +22,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import org.jboss.seam.security.annotations.management.EntityType;
+import org.jboss.seam.security.annotations.management.IdentityEntity;
 import org.jboss.seam.security.annotations.management.IdentityProperty;
 import org.jboss.seam.security.annotations.management.PropertyType;
 
@@ -29,6 +31,7 @@ import org.jboss.seam.security.annotations.management.PropertyType;
  * @author <a href="http://community.jboss.org/people/LightGuard">Jason Porter</a>
  */
 @Entity
+@IdentityEntity(EntityType.IDENTITY_ATTRIBUTE)
 public class IdentityAttribute {
     private Integer attributeId;
     private Identity identity;

@@ -28,6 +28,8 @@ import javax.persistence.Version;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import org.jboss.seam.security.annotations.management.EntityType;
+import org.jboss.seam.security.annotations.management.IdentityEntity;
 import org.jboss.seam.security.annotations.management.IdentityProperty;
 import org.jboss.seam.security.annotations.management.PropertyType;
 import org.jboss.solder.core.Veto;
@@ -36,7 +38,7 @@ import org.jboss.solder.core.Veto;
  * @author <a href="http://community.jboss.org/people/LightGuard">Jason Porter</a>
  */
 @Entity
-@Veto
+@IdentityEntity(EntityType.IDENTITY_OBJECT)
 public class Identity implements Serializable {
     private static final long serialVersionUID = -8136797293873610623L;
 

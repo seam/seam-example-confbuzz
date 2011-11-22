@@ -5,4 +5,4 @@ insert into conference_tags (Conference_id, tags) values (2, 'Java')
 
 insert into IdentityRole(id, name) values (1, 'member');
 insert into IdentityType(id, name) values (1, 'USER');
-insert into Identity (id, name, email, givenLast, givenFirst, credential, credentialType, identity_object_type_id) values (1, 'dan', 'dan@example.com', 'Allen', 'Dan', 'password', 'PASSWORD', 1);
+insert into Identity (id, name, credential, credentialType, identity_object_type_id) values (1, 'dan', 'password', 'PASSWORD', 1);

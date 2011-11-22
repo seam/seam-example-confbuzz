@@ -19,16 +19,21 @@ package seam.example.confbuzz.test.integration;
 import java.util.Collection;
 
 import javax.inject.Inject;
+import javax.transaction.HeuristicMixedException;
+import javax.transaction.HeuristicRollbackException;
+import javax.transaction.NotSupportedException;
+import javax.transaction.RollbackException;
+import javax.transaction.SystemException;
 
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.seam.security.Credentials;
 import org.jboss.seam.security.Identity;
-import org.jboss.seam.security.management.action.UserAction;
+import org.jboss.seam.transaction.DefaultTransaction;
+import org.jboss.seam.transaction.SeamTransaction;
 import org.jboss.shrinkwrap.api.Archive;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.EmptyAsset;
-import org.jboss.shrinkwrap.api.asset.StringAsset;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.shrinkwrap.resolver.api.DependencyResolvers;
@@ -37,7 +42,12 @@ import org.jboss.shrinkwrap.resolver.api.maven.filter.ScopeFilter;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.picketlink.idm.common.exception.FeatureNotSupportedException;
+import org.picketlink.idm.api.AttributesManager;
+import org.picketlink.idm.api.Group;
+import org.picketlink.idm.api.IdentitySession;
+import org.picketlink.idm.api.PersistenceManager;
+import org.picketlink.idm.api.RelationshipManager;
+import org.picketlink.idm.api.User;
 import org.picketlink.idm.common.exception.IdentityException;
 import org.picketlink.idm.impl.api.PasswordCredential;
 import seam.example.confbuzz.PersistenceConfiguration;
@@ -51,12 +61,15 @@ import static org.junit.Assert.assertThat;
  */
 @RunWith(Arquillian.class)
 public class LoginIntegrationTest {
-    // These two are needed to create the user and it's password
     @Inject
-    private UserAction userAction;
+    private IdentitySession identitySession;
 
     @Inject
     private Identity identity;
+
+    @Inject
+    @DefaultTransaction
+    SeamTransaction tx;
 
     @Deployment(name = "authentication")
     public static Archive<?> createLoginDeployment() {
@@ -70,28 +83,30 @@ public class LoginIntegrationTest {
                 .addClass(PersistenceConfiguration.class)
                 .addPackage(seam.example.confbuzz.model.Identity.class.getPackage())
                 .addAsResource("META-INF/persistence.xml")
-                .addAsResource("META-INF/seam-beans.xml")
+//                .addAsResource("META-INF/seam-beans.xml")
                 .addAsResource("auth-import.sql", "import.sql") // HUGE GOTCHA!!! IDENTITY TYPES MUST BE IN THE DB BEFORE CREATING IDENTITIES
                 .addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml")
-                // TODO: Need to find a better way to do this
-                // This is to insure logmanager is used on AS7
-                .addAsWebInfResource(new StringAsset("<jboss-deployment-structure>\n" +
-                        "  <deployment>\n" +
-                        "    <dependencies>\n" +
-                        "      <module name=\"org.jboss.logmanager\" />\n" +
-                        "    </dependencies>\n" +
-                        "  </deployment>\n" +
-                        "</jboss-deployment-structure>"), "jboss-deployment-structure.xml")
                 .addAsLibraries(libraries);
     }
 
     @Before
-    public void setupTestUser() throws IdentityException, FeatureNotSupportedException {
-        userAction.createUser();
-        userAction.setUsername("test");
-        userAction.setPassword("password");
-        userAction.setConfirm("password");
-        userAction.save();
+    public void setupTestUser() throws IdentityException, SystemException, NotSupportedException, RollbackException, HeuristicRollbackException, HeuristicMixedException {
+        if (!tx.isActive())
+            tx.begin();
+
+        final PersistenceManager pm = identitySession.getPersistenceManager();
+        final AttributesManager am = identitySession.getAttributesManager();
+        final RelationshipManager rm = identitySession.getRelationshipManager();
+
+        // Setup the group we want our user to belong to
+        final Group memberGroup = pm.createGroup("member", "GROUP");
+        final User user = pm.createUser("test");
+
+        am.updatePassword(user, "password");
+
+        rm.associateUser(memberGroup, user);
+
+        tx.commit();
     }
 
     @Test
@@ -101,3 +116,4 @@ public class LoginIntegrationTest {
         assertThat(identity.login(), is(Identity.RESPONSE_LOGIN_SUCCESS));
     }
 }
+

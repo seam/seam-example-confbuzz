@@ -22,10 +22,14 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
+import org.jboss.seam.security.annotations.management.EntityType;
+import org.jboss.seam.security.annotations.management.IdentityEntity;
+
 /**
  * @author <a href="http://community.jboss.org/people/LightGuard">Jason Porter</a>
  */
 @Entity
+@IdentityEntity(EntityType.IDENTITY_ROLE_NAME)
 public class IdentityRole implements Serializable {
     private Long id;
     private String name;

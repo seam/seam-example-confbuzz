@@ -18,7 +18,6 @@ package seam.example.confbuzz.model;
 
 import java.io.Serializable;
 
-import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
@@ -30,7 +29,7 @@ import org.jboss.seam.security.annotations.permission.PermissionPropertyType;
 /**
  * @author <a href="http://community.jboss.org/people/LightGuard">Jason Porter</a>
  */
-@Entity
+//@Entity
 public class IdentityPermission implements Serializable {
     private static final long serialVersionUID = -5366058398015495583L;
 
