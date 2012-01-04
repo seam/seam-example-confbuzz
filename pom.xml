@@ -16,12 +16,12 @@
         provided artifacts and others
     -->
     <properties>
-        <seam.bom.version>3.1.0.CR1</seam.bom.version>
+        <seam.bom.version>3.1.0.Final</seam.bom.version>
         <jboss.javaee6.version>2.0.0.Beta1</jboss.javaee6.version>
         <jodatime.version>1.6.2</jodatime.version>
         <arquillian.version>1.0.0.CR2</arquillian.version>
         <arquillian.jbossas7.version>7.0.0.Final</arquillian.jbossas7.version>
-        <richfaces.version>4.0.0.Final</richfaces.version>
+        <richfaces.version>4.1.0.Final</richfaces.version>
         <prettyfaces.version>3.3.0</prettyfaces.version>
         <junit.version>4.8.2</junit.version>
 
